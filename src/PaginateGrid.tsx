@@ -61,7 +61,7 @@ export interface PaginateGridProps extends GridProps {
   filter?: Filter[]
   onChangePage: (params: PageQueryParams) => void
 }
-const PaginateGrid: React.FC<PaginateGridProps> = ({
+export const PaginateGrid: React.FC<PaginateGridProps> = ({
   defaultSorting,
   sortingStateColumnExtensions,
   totalCount,
@@ -125,5 +125,3 @@ const PaginateGrid: React.FC<PaginateGridProps> = ({
     </Grid>
   )
 }
-
-export default PaginateGrid
