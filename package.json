@@ -2,7 +2,7 @@
   "name": "@maruware/dx-react-grid-pagination",
   "version": "0.0.3",
   "description": "",
-  "main": "dist/index.jsx",
+  "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
