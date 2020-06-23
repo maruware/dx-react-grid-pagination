@@ -1,0 +1,32 @@
+{
+  "name": "@maruware/dx-react-grid-pagination",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "prepare": "npm run clean && npm run build",
+    "postinstall": "postinstall-build dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/maruware/dx-react-grid-pagination.git"
+  },
+  "author": "maruware",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maruware/dx-react-grid-pagination/issues"
+  },
+  "homepage": "https://github.com/maruware/dx-react-grid-pagination#readme",
+  "devDependencies": {
+    "@types/react": "^16.9.38",
+    "typescript": "^3.9.5"
+  },
+  "dependencies": {
+    "@devexpress/dx-react-grid": "^2.6.4",
+    "@devexpress/dx-react-grid-material-ui": "^2.6.4",
+    "postinstall-build": "^5.0.3",
+    "react": "^16.13.1"
+  }
+}
