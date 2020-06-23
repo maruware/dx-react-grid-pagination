@@ -3,13 +3,13 @@ import {
   PagingState,
   SortingState,
   CustomPaging,
-  Sorting
+  Sorting,
 } from '@devexpress/dx-react-grid'
 import {
   Grid,
   GridProps,
   TableHeaderRow,
-  PagingPanel
+  PagingPanel,
 } from '@devexpress/dx-react-grid-material-ui'
 
 export interface Filter {
@@ -33,7 +33,7 @@ const getQueryParams = (
 ): PageQueryParams => {
   const rangeQ = JSON.stringify([
     pageSize * currentPage,
-    pageSize * (currentPage + 1)
+    pageSize * (currentPage + 1),
   ] as number[])
 
   const columnSorting = sorting[0]
@@ -43,7 +43,7 @@ const getQueryParams = (
       columnSorting.direction === 'desc' ? ' desc' : 'asc'
     sortQ = JSON.stringify({
       field: columnSorting.columnName,
-      order: sortingDirectionString
+      order: sortingDirectionString,
     })
   }
   let filterQ: string | undefined
@@ -71,7 +71,7 @@ const PaginateGrid: React.FC<PaginateGridProps> = ({
   ...rest
 }) => {
   const [sorting, setSorting] = useState<Sorting[]>([
-    defaultSorting || { columnName: 'id', direction: 'desc' }
+    defaultSorting || { columnName: 'id', direction: 'desc' },
   ])
   const [pageSize, setPageSize] = useState(15)
   const [pageSizes] = useState([15, 30, 50, 100])
