@@ -41,10 +41,10 @@ const getQueryParams = (
   if (columnSorting) {
     const sortingDirectionString =
       columnSorting.direction === 'desc' ? ' desc' : 'asc'
-    sortQ = JSON.stringify({
-      field: columnSorting.columnName,
-      order: sortingDirectionString,
-    })
+    sortQ = JSON.stringify([
+      columnSorting.columnName,
+      sortingDirectionString,
+    ])
   }
   let filterQ: string | undefined
   if (filter) {
