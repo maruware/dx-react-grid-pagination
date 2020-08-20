@@ -20,10 +20,8 @@ export interface PageDefinition {
 }
 
 export interface PaginateGridProps extends GridProps {
-  sorting?: Sorting
-  page?: number
   pageSizes?: number[]
-  pageSize?: number
+  pageDef: PageDefinition | undefined
   sortingStateColumnExtensions?: SortingState.ColumnExtension[]
   totalCount: number
   onChangePage: (pageDef: PageDefinition) => void
@@ -31,16 +29,22 @@ export interface PaginateGridProps extends GridProps {
 export const PaginateGrid: React.FC<PaginateGridProps> = ({
   sortingStateColumnExtensions,
   totalCount,
+  pageDef,
   onChangePage,
   children,
   ...rest
 }) => {
-  const sorting = rest.sorting || { columnName: 'id', direction: 'desc' }
+  const sorting: Sorting =
+    pageDef && pageDef.sorting
+      ? pageDef.sorting
+      : { columnName: 'id', direction: 'desc' }
   const pageSizes = rest.pageSizes || [15, 30, 50, 100]
   const pageSize =
-    rest.pageSize && pageSizes.includes(rest.pageSize) ? rest.pageSize : 15
+    pageDef && pageDef.pageSize && pageSizes.includes(pageDef.pageSize)
+      ? pageDef.pageSize
+      : 15
 
-  const page = rest.page || 0
+  const page = pageDef && pageDef.page ? pageDef.page : 0
 
   const handleChangePageSize = (value: number) => {
     const totalPages = Math.ceil(totalCount / value)
