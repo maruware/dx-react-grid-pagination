@@ -2,16 +2,11 @@
   "name": "@maruware/dx-react-grid-pagination",
   "version": "0.1.0",
   "description": "",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
     "prepare": "npm run clean && npm run build",
-    "postinstall": "postinstall-build dist"
+    "postinstall": "cp dist/* ."
   },
   "repository": {
     "type": "git",
@@ -42,7 +37,6 @@
   "dependencies": {
     "@devexpress/dx-react-grid": "^2.6.4",
     "@devexpress/dx-react-grid-material-ui": "^2.6.4",
-    "postinstall-build": "^5.0.3",
     "react": "^16.13.1"
   }
 }
