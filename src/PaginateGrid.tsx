@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import {
   PagingState,
   SortingState,
@@ -12,109 +12,61 @@ import {
   PagingPanel,
 } from '@devexpress/dx-react-grid-material-ui'
 
-export interface Filter {
-  op: 'equal' | 'contains' | 'between' | 'in' | 'null' | 'not_null'
-  column: string
-  values: any[]
-}
-
-export interface PageQueryParams {
+export interface PageDefinition {
   // eslint-disable-next-line camelcase
-  range?: string
-  sort?: string
-  filter?: string
-}
-
-const getQueryParams = (
-  currentPage: number,
-  pageSize: number,
-  sorting: Sorting[],
-  filter?: Filter[]
-): PageQueryParams => {
-  const rangeQ = JSON.stringify([
-    pageSize * currentPage,
-    pageSize * (currentPage + 1),
-  ] as number[])
-
-  const columnSorting = sorting[0]
-  let sortQ = ''
-  if (columnSorting) {
-    const sortingDirectionString =
-      columnSorting.direction === 'desc' ? ' desc' : 'asc'
-    sortQ = JSON.stringify([
-      columnSorting.columnName,
-      sortingDirectionString,
-    ])
-  }
-  let filterQ: string | undefined
-  if (filter) {
-    filterQ = JSON.stringify(filter)
-  }
-
-  return { range: rangeQ, sort: sortQ, filter: filterQ }
+  page: number
+  pageSize: number
+  sorting?: Sorting
 }
 
 export interface PaginateGridProps extends GridProps {
-  defaultSorting?: Sorting
+  sorting?: Sorting
+  page?: number
+  pageSizes?: number[]
+  pageSize?: number
   sortingStateColumnExtensions?: SortingState.ColumnExtension[]
   totalCount: number
-  filter?: Filter[]
-  onChangePage: (params: PageQueryParams) => void
+  onChangePage: (pageDef: PageDefinition) => void
 }
 export const PaginateGrid: React.FC<PaginateGridProps> = ({
-  defaultSorting,
   sortingStateColumnExtensions,
   totalCount,
-  filter,
   onChangePage,
   children,
   ...rest
 }) => {
-  const [sorting, setSorting] = useState<Sorting[]>([
-    defaultSorting || { columnName: 'id', direction: 'desc' },
-  ])
-  const [pageSize, setPageSize] = useState(15)
-  const [pageSizes] = useState([15, 30, 50, 100])
-  const [currentPage, setCurrentPage] = useState(0)
+  const sorting = rest.sorting || { columnName: 'id', direction: 'desc' }
+  const pageSizes = rest.pageSizes || [15, 30, 50, 100]
+  const pageSize =
+    rest.pageSize && pageSizes.includes(rest.pageSize) ? rest.pageSize : 15
+
+  const page = rest.page || 0
 
   const handleChangePageSize = (value: number) => {
     const totalPages = Math.ceil(totalCount / value)
-    const updatedCurrentPage = Math.min(currentPage, totalPages - 1)
+    const updatedCurrentPage = Math.min(page, totalPages - 1)
 
-    setPageSize(value)
-    setCurrentPage(updatedCurrentPage)
-
-    const p = getQueryParams(updatedCurrentPage, value, sorting, filter)
-    onChangePage(p)
+    onChangePage({ sorting, pageSize: value, page: updatedCurrentPage })
   }
 
   const handleChangeCurrentPage = (currentPage: number) => {
-    setCurrentPage(currentPage)
-    const p = getQueryParams(currentPage, pageSize, sorting, filter)
-    onChangePage(p)
+    onChangePage({ sorting, pageSize, page: currentPage })
   }
 
   const handleChangeSorting = (sorting: Sorting[]) => {
-    setSorting(sorting)
-    const p = getQueryParams(currentPage, pageSize, sorting, filter)
-    onChangePage(p)
+    onChangePage({ pageSize, page, sorting: sorting[0] })
   }
-
-  useEffect(() => {
-    const p = getQueryParams(currentPage, pageSize, sorting, filter)
-    onChangePage(p)
-  }, [filter])
 
   return (
     <Grid {...rest}>
       {children}
       <SortingState
-        sorting={sorting}
+        sorting={[sorting]}
         columnExtensions={sortingStateColumnExtensions}
         onSortingChange={handleChangeSorting}
       />
       <PagingState
-        currentPage={currentPage}
+        currentPage={page}
         onCurrentPageChange={handleChangeCurrentPage}
         pageSize={pageSize}
         onPageSizeChange={handleChangePageSize}
