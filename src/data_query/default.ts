@@ -9,7 +9,7 @@ export interface DataQueryParams {
 
 export const buildDataQuery = (
   def: PageDefinition,
-  filter: Filter | undefined
+  filter: Filter[] | undefined
 ): DataQueryParams => {
   const rangeQ = JSON.stringify([
     def.pageSize * def.page,
