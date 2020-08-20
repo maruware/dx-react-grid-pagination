@@ -10,8 +10,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
-    "prepare": "npm run clean && npm run build",
-    "postinstall": "postinstall-build dist"
+    "prepare": "npm run clean && npm run build"
   },
   "repository": {
     "type": "git",
@@ -42,7 +41,6 @@
   "dependencies": {
     "@devexpress/dx-react-grid": "^2.6.4",
     "@devexpress/dx-react-grid-material-ui": "^2.6.4",
-    "postinstall-build": "^5.0.3",
     "react": "^16.13.1"
   }
 }
