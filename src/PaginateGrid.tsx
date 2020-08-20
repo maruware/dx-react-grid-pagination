@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   PagingState,
   SortingState,
@@ -60,6 +60,10 @@ export const PaginateGrid: React.FC<PaginateGridProps> = ({
   const handleChangeSorting = (sorting: Sorting[]) => {
     onChangePage({ pageSize, page, sorting: sorting[0] })
   }
+
+  useEffect(() => {
+    onChangePage({ sorting, pageSize, page })
+  }, [])
 
   return (
     <Grid {...rest}>
